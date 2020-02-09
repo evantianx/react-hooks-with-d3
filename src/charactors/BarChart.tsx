@@ -9,8 +9,8 @@ export const BarChart: React.FC = () => {
     const svg = select(svgRef.current);
 
     const xScale = scaleBand<number>()
-      .domain([0, 1, 2, 3, 4, 5, 6])
-      .range([0, (data.length - 1) * 50])
+      .domain(data.map((_, index) => index))
+      .range([0, 300])
       .padding(0.5);
     const yScale = scaleLinear<number>()
       .domain([0, 150])
@@ -44,6 +44,20 @@ export const BarChart: React.FC = () => {
       .attr('transform', 'scale(1, -1)') // flip the bar
       .attr('y', -150) // original y of bar
       .attr('width', xScale.bandwidth())
+      .on('mouseenter', (value, index) => {
+        svg
+          .selectAll('.tooltip')
+          .data([value])
+          .join(enter => enter.append('text').attr('y', yScale(value) - 1))
+          .attr('class', 'tooltip')
+          .attr('x', (xScale(index) as number) + xScale.bandwidth() / 2)
+          .attr('text-anchor', 'middle')
+          .text(value)
+          .transition()
+          .attr('y', yScale(value) - 5)
+          .attr('opacity', 1);
+      })
+      .on('mouseleave', () => svg.selectAll('.tooltip').remove())
       .transition()
       .attr('height', value => 150 - yScale(value))
       .attr('fill', colorScale);
@@ -60,6 +74,12 @@ export const BarChart: React.FC = () => {
         onClick={() => setData(data.map(v => v + 2))}
       >
         Update Data
+      </button>
+      <button
+        className='updateBtn'
+        onClick={() => setData([...data, Math.round(Math.random() * 150)])}
+      >
+        Add Data
       </button>
     </>
   );
