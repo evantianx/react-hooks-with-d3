@@ -1,32 +1,63 @@
 import React from 'react';
-import { select, line, curveCardinal } from 'd3';
+import {
+  select,
+  line,
+  curveCardinal,
+  axisBottom,
+  axisRight,
+  scaleLinear,
+} from 'd3';
 
 export const LineChart: React.FC = () => {
   const [data, setData] = React.useState<number[]>([20, 41, 16, 78, 6, 81, 43]);
   const svgRef = React.useRef<SVGSVGElement>(null);
-  const myLine = line<number>()
-    .x((_, index) => index * 50)
-    .y(value => 150 - value)
-    .curve(curveCardinal);
 
   React.useEffect(() => {
     const svg = select(svgRef.current);
+
+    const xScale = scaleLinear()
+      .domain([0, data.length - 1])
+      .range([0, (data.length - 1) * 50]);
+    const yScale = scaleLinear()
+      .domain([0, 81])
+      .range([150, 0]);
+
+    const xAxis = axisBottom(xScale)
+      .ticks(data.length)
+      .tickFormat(index => (index as any) + 1);
+    const yAxis = axisRight(yScale);
+
+    // xAxis(svg.select('.x-axis'));
     svg
-      .selectAll('path')
+      .select('.x-axis')
+      .style('transform', 'translateY(150px)')
+      .call(xAxis as any);
+    svg
+      .select('.y-axis')
+      .style('transform', 'translateX(300px)')
+      .call(yAxis as any);
+
+    const myLine = line<number>()
+      .x((_, index) => xScale(index))
+      .y(yScale)
+      .curve(curveCardinal);
+
+    svg
+      .selectAll('.line')
       .data([data])
       .join('path')
-      .attr('d', value => myLine(value))
+      .attr('class', 'line')
+      .attr('d', myLine)
       .attr('fill', 'none')
       .attr('stroke', 'red');
   }, [data]);
 
   return (
     <>
-      <svg ref={svgRef}></svg>
-      <button onClick={() => setData(data.map(v => v + 5))}>Update Data</button>
-      <button onClick={() => setData(data.filter(v => v >= 6))}>
-        Filter Data
-      </button>
+      <svg ref={svgRef}>
+        <g className='x-axis' />
+        <g className='y-axis' />
+      </svg>
     </>
   );
 };
