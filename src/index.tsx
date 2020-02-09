@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Basic, LineChart } from './charactors';
+import { Basic, LineChart, BarChart } from './charactors';
 import './index.css';
 
 const App: React.FC = () => (
   <>
     <Basic />
     <LineChart />
+    <BarChart />
   </>
 );
 

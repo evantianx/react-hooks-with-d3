@@ -25,3 +25,7 @@ svg.selectAll('svg')
     exit => exit.remove() // d3 默认处理这一条
   )
 ```
+
+### `scale`
+
+> [d3-scale](https://github.com/d3/d3-scale)

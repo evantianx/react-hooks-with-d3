@@ -20,9 +20,11 @@ export const Basic: React.FC = () => {
   return (
     <>
       <svg ref={svgRef}></svg>
-      <button onClick={() => setData(data.map(v => v * 2))}>Update Data</button>
-      <button onClick={() => setData(data.filter(v => v >= 6))}>
-        Filter Data
+      <button
+        className='updateBtn'
+        onClick={() => setData(data.map(v => v * 2))}
+      >
+        Update Data
       </button>
     </>
   );

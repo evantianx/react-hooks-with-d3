@@ -58,6 +58,12 @@ export const LineChart: React.FC = () => {
         <g className='x-axis' />
         <g className='y-axis' />
       </svg>
+      <button
+        className='updateBtn'
+        onClick={() => setData(data.map(v => v + 2))}
+      >
+        Update Data
+      </button>
     </>
   );
 };
