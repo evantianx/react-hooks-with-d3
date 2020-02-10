@@ -1,6 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Basic, LineChart, BarChart, BBTimeline } from './charactors';
+import {
+  Basic,
+  LineChart,
+  BarChart,
+  BBTimeline,
+  RaceChart,
+} from './charactors';
 import './index.css';
 
 const App: React.FC = () => (
@@ -9,6 +15,7 @@ const App: React.FC = () => (
     <LineChart />
     <BarChart />
     <BBTimeline />
+    <RaceChart />
   </>
 );
 
