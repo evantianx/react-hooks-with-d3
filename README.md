@@ -29,3 +29,23 @@ svg.selectAll('svg')
 ### `scale`
 
 > [d3-scale](https://github.com/d3/d3-scale)
+
+### ResizeObserver
+
+```bash
+# install types
+yarn add -D @types/resize-observer-browser
+```
+
+Also we need to declare this type in `tsconfig.json`: 
+
+```json
+{
+  "compilerOptions": {
+    "types": ["resize-observer-browser"]
+  }
+}
+```
+
+> Currently, `ResizeObserver` seems not work at SVG element, so we need to wrap
+> the SVG with a `div` element and observe this `div` to get dimensions

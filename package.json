@@ -38,6 +38,7 @@
     ]
   },
   "devDependencies": {
-    "@types/d3": "^5.7.2"
+    "@types/d3": "^5.7.2",
+    "@types/resize-observer-browser": "^0.1.3"
   }
 }

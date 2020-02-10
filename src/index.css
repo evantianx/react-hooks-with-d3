@@ -1,15 +1,21 @@
 svg {
   display: block;
-  margin: 50px auto 25px;
+  width: 100%;
   background: #eee;
   overflow: visible;
 }
 
-.updateBtn {
-  display: block;
-  margin: 25px auto 0;
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  height: 100vh;
+  padding: 0 50px;
 }
 
-.updateBtn + .updateBtn {
-  margin-top: 5px;
+.updateBtn {
+  width: 100px;
+  border: 1px solid #999;
+  margin: 0 auto 5px;
 }
