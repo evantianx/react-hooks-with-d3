@@ -89,7 +89,9 @@ export const RaceChart: React.FC = () => {
     svg
       .selectAll('.bar')
       .data(data, entry => (entry as Racer).name)
-      .join('rect')
+      .join(enter =>
+        enter.append('rect').attr('y', (_, index) => yScale(index) as number),
+      )
       .attr('fill', entry => entry.color)
       .attr('class', 'bar')
       .attr('x', 0)
@@ -106,7 +108,7 @@ export const RaceChart: React.FC = () => {
           .append('text')
           .attr(
             'y',
-            (entry, index) =>
+            (_, index) =>
               (yScale(index) as number) + yScale.bandwidth() / 2 + 5,
           ),
       )
