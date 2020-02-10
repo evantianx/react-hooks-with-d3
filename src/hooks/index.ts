@@ -29,3 +29,44 @@ export const useResizeObserver = <T>(ref: React.RefObject<T>) => {
 
   return dimensions;
 };
+
+interface character {
+  name: string;
+}
+
+interface episode {
+  episode_id: number;
+  title: string;
+  season: string;
+  air_date: string;
+  characters: string[];
+  episode: string;
+  series: string;
+}
+
+export const useBBApi = () => {
+  const [bbEpisodes, setBbEpisodes] = useState<episode[]>([]);
+  const [bbCharacters, setBbCharacters] = useState<character[]>([]);
+  useEffect(() => {
+    fetch('https://www.breakingbadapi.com/api/characters?category=Breaking+Bad')
+      .then(response => response.ok && response.json())
+      .then((characters: character[]) => {
+        setBbCharacters(
+          characters.sort((a, b) => a.name.localeCompare(b.name)),
+        );
+      })
+      .catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    fetch('https://www.breakingbadapi.com/api/episodes?series=Breaking+Bad')
+      .then(response => response.ok && response.json())
+      .then(episodes => {
+        console.warn(episodes);
+        setBbEpisodes(episodes);
+      })
+      .catch(console.error);
+  }, []);
+
+  return {bbEpisodes, bbCharacters}
+}

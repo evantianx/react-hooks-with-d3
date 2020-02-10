@@ -11,7 +11,6 @@ export const BarChart: React.FC = () => {
   React.useEffect(() => {
     const svg = select(svgRef.current);
 
-    console.log(dimensions);
     if (!dimensions) return;
     const { width, height } = dimensions;
 
