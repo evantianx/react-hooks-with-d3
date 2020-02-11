@@ -6,6 +6,7 @@ import {
   BarChart,
   BBTimeline,
   RaceChart,
+  TreeChart,
 } from './charactors';
 import './index.css';
 
@@ -16,6 +17,7 @@ const App: React.FC = () => (
     <BarChart />
     <BBTimeline />
     <RaceChart />
+    <TreeChart />
   </>
 );
 
