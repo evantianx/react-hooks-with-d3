@@ -141,7 +141,7 @@ export const TreeChart: React.FC = () => {
       </div>
       <button
         className='updateBtn'
-        onClick={() => setData(initialData.children[0])}
+        onClick={() => data.children.length && setData(data.children[0])}
       >
         Update Data
       </button>

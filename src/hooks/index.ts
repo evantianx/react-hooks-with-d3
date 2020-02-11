@@ -94,10 +94,10 @@ export const useInterval = (callback: ICallback, delay: number): void => {
 }
 
 export const usePrevious = <T>(value: T): T => { 
-  const previous = useRef<T>(null)
+  const previousRef = useRef<T | null>(null)
   useEffect(() => { 
-    (previous.current as T) = value
+    (previousRef.current as T) = value
   }, [value])
 
-  return previous.current as T
+  return previousRef.current as T
 }
