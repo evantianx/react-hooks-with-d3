@@ -1,6 +1,6 @@
 import React from 'react';
 import { select, hierarchy, tree, linkHorizontal } from 'd3';
-import { useResizeObserver } from '../hooks';
+import { useResizeObserver, usePrevious } from '../hooks';
 
 const initialData = {
   name: '😂',
@@ -54,6 +54,7 @@ export const TreeChart: React.FC = () => {
   const wrapperRef = React.useRef<HTMLDivElement>(null);
   const dimensions = useResizeObserver<HTMLDivElement>(wrapperRef);
   const [data, setData] = React.useState<typeof initialData>(initialData);
+  const previousData = usePrevious<typeof initialData>(data);
 
   React.useEffect(() => {
     if (!dimensions) return;
@@ -86,26 +87,31 @@ export const TreeChart: React.FC = () => {
       .attr('opacity', 1);
 
     // links
-    svg
+    const enteringAndUpdatingLinks = svg
       .selectAll('.link')
       .data(root.links())
       .join('path')
       .attr('class', 'link')
       .attr('d', linkObj => linkGenerator(linkObj as any))
-      .attr('fill', 'none')
-      .attr('stroke', 'black')
       .attr('stroke-dasharray', function() {
         const length = (this as any).getTotalLength();
         return `${length} ${length}`;
       })
-      .attr('stroke-dashoffset', function() {
-        const length = (this as any).getTotalLength();
-        return length;
-      })
-      .transition()
-      .duration(500)
-      .delay(linkObj => linkObj.source.depth * 500)
-      .attr('stroke-dashoffset', 0);
+      .attr('stroke', 'black')
+      .attr('fill', 'none')
+      .attr('opacity', 1);
+
+    if (previousData !== data) {
+      enteringAndUpdatingLinks
+        .attr('stroke-dashoffset', function() {
+          const length = (this as any).getTotalLength();
+          return length;
+        })
+        .transition()
+        .duration(500)
+        .delay(linkObj => linkObj.source.depth * 500)
+        .attr('stroke-dashoffset', 0);
+    }
 
     // labels
     svg
@@ -123,7 +129,7 @@ export const TreeChart: React.FC = () => {
       .duration(500)
       .delay(node => (node as any).depth * 500)
       .attr('opacity', 1);
-  }, [dimensions, data]);
+  }, [dimensions, data, previousData]);
 
   return (
     <>

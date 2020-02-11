@@ -92,3 +92,12 @@ export const useInterval = (callback: ICallback, delay: number): void => {
     }
   }, [delay]);
 }
+
+export const usePrevious = <T>(value: T): T => { 
+  const previous = useRef<T>(null)
+  useEffect(() => { 
+    (previous.current as T) = value
+  }, [value])
+
+  return previous.current as T
+}
